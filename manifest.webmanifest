@@ -6,6 +6,6 @@
   "display": "standalone",
   "background_color": "#100e17",
   "theme_color": "#171522",
-  "description": "Offline-friendly LeviMap archive scanner and map image viewer.",
+  "description": "Android-first LeviMap MMR1 world map converter.",
   "icons": []
 }

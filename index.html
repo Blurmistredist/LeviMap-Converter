@@ -4,91 +4,159 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#171522">
-<meta name="description" content="Offline-friendly LeviMap archive scanner and map image viewer.">
 <link rel="manifest" href="manifest.webmanifest">
 <title>LeviMap Extractor</title>
 <style>
-:root{color-scheme:dark;--bg:#100e17;--panel:#1b1825;--panel2:#252132;--line:#393348;--text:#f5f1ff;--muted:#aaa2ba;--purple:#a88bff;--green:#8ce0b0;--amber:#f3c77a}
+:root{color-scheme:dark;--bg:#100e17;--panel:#1d1928;--panel2:#292438;--line:#3a334a;--text:#f5f1ff;--muted:#aaa2ba;--purple:#a88bff;--green:#8ce0b0;--amber:#f3c77a}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#30264a 0%,transparent 55%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-main{max-width:760px;margin:auto;padding:20px 16px 48px}.top{display:flex;align-items:center;gap:12px;margin:8px 0 24px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#9c7bff,#6044a4);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 30px #7956c455}.top h1{font-size:20px;line-height:1.15;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.pill{margin-left:auto;border:1px solid #4b4260;border-radius:999px;padding:4px 9px;color:#c7b9ed;font-size:11px;white-space:nowrap}
-.card{background:linear-gradient(160deg,#211d2d,#191622);border:1px solid var(--line);border-radius:20px;padding:17px;margin:14px 0;box-shadow:0 12px 35px #0002}.hero{padding:20px}.hero h2{font-size:19px;margin:0 0 5px}.muted{color:var(--muted)}.small{font-size:12px}.drop{border:1.5px dashed #655681;background:#211c30;border-radius:16px;padding:24px 14px;text-align:center;margin-top:16px}.drop strong{display:block;margin:7px 0 3px}.drop input{display:none}.btn{border:0;border-radius:13px;background:linear-gradient(135deg,#a78bfa,#7656c9);color:white;font-weight:700;padding:12px 16px;font-size:14px;cursor:pointer;min-height:46px}.btn.secondary{background:#302a3d;border:1px solid #4a415a;color:#eee8ff}.btn:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#211d2b;border:1px solid #383146;border-radius:13px;padding:11px}.stat b{font-size:20px;display:block}.stat span{font-size:11px;color:var(--muted)}h3{font-size:15px;margin:0 0 12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #332e40}.row:last-child{border:0}.tag{font-size:11px;border-radius:8px;padding:3px 7px;background:#30283e;color:#c9b9f7}.status{margin-top:12px;padding:11px 13px;border-radius:12px;background:#211e2a;color:#c9c0d8;font-size:13px}.status.good{border:1px solid #315e48;color:var(--green)}.status.warn{border:1px solid #705833;color:var(--amber)}.preview{width:100%;max-height:55vh;object-fit:contain;background:#0c0b10;border-radius:12px;border:1px solid var(--line)}select{background:#2a2535;color:white;border:1px solid #514762;border-radius:10px;padding:10px;width:100%;font:inherit}footer{color:#817991;text-align:center;font-size:11px;padding:18px 4px}.hidden{display:none!important}a{color:#c5b3ff}.notice{font-size:12px;color:#bfb6ce;line-height:1.55}.fileline{overflow-wrap:anywhere;font-size:12px;color:#c8c0d4}
-@media(min-width:600px){main{padding-top:30px}.hero{padding:25px}.drop{padding:32px}}
+main{max-width:760px;margin:auto;padding:18px 15px 48px}.top{display:flex;align-items:center;gap:12px;margin:8px 0 22px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#9c7bff,#6044a4);display:grid;place-items:center;font-size:25px}.top h1{font-size:20px;line-height:1.15;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.pill{margin-left:auto;border:1px solid #4b4260;border-radius:999px;padding:4px 9px;color:#c7b9ed;font-size:11px}
+.card{background:linear-gradient(160deg,#211d2d,#191622);border:1px solid var(--line);border-radius:20px;padding:17px;margin:13px 0;box-shadow:0 12px 35px #0002}.hero{padding:20px}.hero h2{font-size:19px;margin:0 0 5px}.muted{color:var(--muted)}.small{font-size:12px}.btn{border:0;border-radius:13px;background:linear-gradient(135deg,#a78bfa,#7656c9);color:white;font-weight:700;padding:12px 16px;font-size:14px;cursor:pointer;min-height:46px}.btn.secondary{background:#302a3d;border:1px solid #4a415a;color:#eee8ff}.btn:disabled{opacity:.4;cursor:not-allowed}.full{width:100%}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.drop{border:1.5px dashed #655681;background:#211c30;border-radius:16px;padding:21px 14px;text-align:center;margin-top:15px}.drop input{display:none}.drop strong{display:block;margin:6px 0 2px}.status{margin-top:12px;padding:11px 13px;border-radius:12px;background:#211e2a;color:#c9c0d8;font-size:13px}.status.good{border:1px solid #315e48;color:var(--green)}.status.warn{border:1px solid #705833;color:var(--amber)}h3{font-size:15px;margin:0 0 12px}.field{margin:14px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}select{background:#2a2535;color:white;border:1px solid #514762;border-radius:10px;padding:12px;width:100%;font:inherit}.dimension{display:flex;align-items:center;gap:11px;background:#252031;border:1px solid #3c354c;border-radius:13px;padding:12px;margin:8px 0}.dimension input{width:19px;height:19px;accent-color:#a78bfa}.dimension b{display:block}.dimension small{color:var(--muted)}.toggle{display:flex;gap:10px;align-items:flex-start;padding:12px;background:#252031;border:1px solid #3c354c;border-radius:13px}.toggle input{width:19px;height:19px;accent-color:#a78bfa;margin-top:2px}.progress{height:8px;border-radius:99px;background:#302a3d;overflow:hidden;margin-top:12px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#9b7aff,#75d6a4);transition:width .15s}.preview{width:100%;max-height:50vh;object-fit:contain;background:#08070c;border-radius:12px;border:1px solid var(--line);margin-top:12px}.notice{font-size:12px;line-height:1.55;color:#bfb6ce}.hidden{display:none!important}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.tag{font-size:11px;border-radius:8px;padding:3px 7px;background:#30283e;color:#c9b9f7}.footer{text-align:center;color:#817991;font-size:11px;padding:18px 4px}.summary{font-size:12px;color:#c8c0d4;overflow-wrap:anywhere}
+@media(min-width:600px){main{padding-top:28px}.hero{padding:25px}}
 </style>
 </head>
 <body>
 <main>
- <header class="top">
-  <div class="logo">🗺️</div>
-  <div><h1>LeviMap Extractor</h1><div class="sub">Minecraft map archive companion</div></div>
-  <span class="pill">ANDROID FIRST</span>
- </header>
- <section class="card hero">
-  <h2>Bring your world map out of Minecraft.</h2>
-  <div class="muted small">Scan LeviMap archives, inspect profiles and regions, and view previously exported map images. Your files stay on this device.</div>
-  <label class="drop" for="archive">
-   <div style="font-size:30px">📦</div><strong>Choose a LeviMap archive</strong>
-   <div class="muted small">.zip or .levipack · processed locally</div>
-   <div class="actions" style="justify-content:center"><span class="btn">Browse files</span></div>
-   <input id="archive" type="file" accept=".zip,.levipack,application/zip">
-  </label>
-  <div id="status" class="status">Waiting for an archive.</div>
- </section>
- <section id="results" class="card hidden">
-  <h3>Archive overview</h3>
-  <div class="statgrid">
-   <div class="stat"><b id="regions">0</b><span>MMR regions</span></div>
-   <div class="stat"><b id="profiles">0</b><span>Profiles</span></div>
-   <div class="stat"><b id="images">0</b><span>PNG images</span></div>
-  </div>
-  <div style="margin-top:17px"><label class="small muted" for="profile">Map profile / dimension</label><select id="profile"></select></div>
-  <div id="regionList" style="margin-top:12px"></div>
-  <div class="notice" style="margin-top:13px">Waypoint files are detected but intentionally ignored for map-image viewing.</div>
- </section>
- <section id="imageCard" class="card hidden">
-  <h3>Image found in archive</h3>
-  <img id="mapImage" class="preview" alt="Map image preview">
-  <div id="imageInfo" class="muted small" style="margin-top:8px"></div>
-  <div class="actions"><button id="saveImage" class="btn">Save image</button></div>
- </section>
- <section class="card">
-  <h3>About conversion</h3>
-  <div class="status warn"><b>MMR image decoder is not yet built into this version.</b><br>It can identify LeviMap MMR1 archives and inspect their region layout, but it cannot yet reconstruct new PNG maps from raw .mmr files. I’m keeping this limitation visible rather than giving you a broken or misleading export button.</div>
-  <p class="notice">The next development step is porting LeviMap’s native MMR1 decoding and tile-rendering logic into a browser-compatible engine. The Android .so is an ARM64 native library tied to its game/mod environment, so a normal web page cannot simply load it.</p>
- </section>
- <footer>LeviMap Extractor · local file processing · no uploads</footer>
+<header class="top"><div class="logo">🗺️</div><div><h1>LeviMap Extractor</h1><div class="sub">MMR1 world map converter</div></div><span class="pill">ANDROID</span></header>
+
+<section class="card hero">
+ <h2>Convert your explored world into a map image.</h2>
+ <div class="muted small">Choose LeviMap's data folder on your phone. The conversion runs locally; your world files are not uploaded.</div>
+ <label class="drop" for="folderInput">
+  <div style="font-size:29px">📁</div><strong>Select LeviMap data folder</strong>
+  <div class="muted small">Browse to Android/media/org.levimc.launcher/minecraft/com.mojang.minecraftpe/LeviMap/data</div>
+  <div class="actions" style="justify-content:center"><span class="btn">Browse folders</span></div>
+  <input id="folderInput" type="file" webkitdirectory directory multiple>
+ </label>
+ <div class="actions"><button id="nativeFolder" class="btn secondary full">Open folder picker</button></div>
+ <div id="scanStatus" class="status">No folder selected yet.</div>
+</section>
+
+<section id="chooseCard" class="card hidden">
+ <h3>1. Choose a world</h3>
+ <div class="field"><label for="worldSelect">World folder</label><select id="worldSelect"></select></div>
+ <div class="field"><label for="dimensionSelect">2. Choose a dimension</label><select id="dimensionSelect"></select></div>
+ <div class="field"><label for="profileSelect">Map profile</label><select id="profileSelect"></select><div class="muted small" style="margin-top:5px">Usually choose the profile with the most surface regions.</div></div>
+ <h3 style="margin-top:19px">3. Waypoint coordinates</h3>
+ <label class="toggle"><input id="includeWaypoints" type="checkbox"><span><b>Include waypoint TXT</b><br><small class="muted">Package the PNG and a readable waypoint coordinate list together in a ZIP. Waypoints are not drawn over the map.</small></span></label>
+ <div id="worldSummary" class="summary" style="margin-top:13px"></div>
+ <div class="actions"><button id="exportBtn" class="btn full">Export full-resolution PNG</button></div>
+ <div id="progressWrap" class="hidden"><div class="progress"><div id="progressBar"></div></div><div id="progressText" class="muted small" style="margin-top:6px">Preparing…</div></div>
+ <div id="exportStatus" class="status hidden"></div>
+</section>
+
+<section id="resultCard" class="card hidden">
+ <div class="row"><h3 style="margin:0">Export preview</h3><span id="resultSize" class="tag"></span></div>
+ <img id="preview" class="preview" alt="Exported map preview">
+ <div id="resultInfo" class="muted small" style="margin-top:9px"></div>
+ <div class="actions"><button id="downloadAgain" class="btn full">Download again</button></div>
+</section>
+
+<section class="card">
+ <h3>What this converter does</h3>
+ <div class="notice">• Decodes LeviMap MMR1 tile records, including Zlib-compressed and sparse-pixel records.<br>• Reconstructs 16×16 pixel tiles into 256×256 pixel regions, then stitches regions using their region_x_y coordinates.<br>• Exports the complete mapped footprint, preserving transparent unexplored areas.<br>• Reads waypoints from LeviMap's waypoints/dim_N/waypoints.json and can package them as TXT.<br>• Ignores cave layers and waypoint overlays; this export uses the surface map.</div>
+ <div class="status warn">Large images need substantial phone memory. The app does not impose a 10,000-pixel cap, but Android Chrome and the device GPU/browser still have their own canvas and memory limits.</div>
+</section>
+<footer class="footer">LeviMap Extractor · MMR1 decoder · local processing</footer>
 </main>
-<script src="zip-reader.js"></script>
+
+<script src="mmr-decoder.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-let entries=[],currentImage=null,archiveName='';
-function setStatus(msg,kind=''){ $('status').className='status '+kind; $('status').textContent=msg; }
-$('archive').addEventListener('change',async e=>{
- const f=e.target.files[0]; if(!f)return;
- archiveName=f.name; setStatus('Reading archive…');
- try{
-  entries=await readZip(f);
-  const mmr=entries.filter(x=>/\.mmr$/i.test(x.name));
-  const png=entries.filter(x=>/\.png$/i.test(x.name));
-  const jsons=entries.filter(x=>/\.json$/i.test(x.name));
-  const groups=new Map();
-  for(const x of mmr){const p=x.name.split('/');const dim=p.find(v=>/^dim_/.test(v))||'unknown dimension';const prof=p.find(v=>/^profile_/.test(v))||'unknown profile';const surface=p.includes('surface')?'surface':(p.includes('cave')?'cave':'other');const key=[dim,prof,surface].join(' / ');groups.set(key,(groups.get(key)||0)+1);}
-  $('regions').textContent=mmr.length;$('profiles').textContent=new Set([...groups.keys()].map(k=>k.split(' / ').slice(0,2).join('/'))).size;$('images').textContent=png.length;
-  const sel=$('profile');sel.innerHTML='';
-  for(const [k,n] of groups){const o=document.createElement('option');o.value=k;o.textContent=`${k} · ${n} regions`;sel.append(o);}
-  renderRegions();
-  $('results').classList.remove('hidden');
-  if(png.length){const best=png.find(x=>/main_world.*\.png$/i.test(x.name))||png[0];const blob=new Blob([best.data],{type:'image/png'});currentImage={blob,name:best.name};$('mapImage').src=URL.createObjectURL(blob);$('imageInfo').textContent=best.name;$('imageCard').classList.remove('hidden');}
-  else $('imageCard').classList.add('hidden');
-  setStatus(`Scanned ${f.name}: found ${mmr.length} MMR regions, ${groups.size} region groups, ${png.length} PNG images and ${jsons.length} JSON files.`, 'good');
- }catch(err){console.error(err);setStatus('Could not read this archive: '+err.message,'warn');}
-});
-function renderRegions(){
- const key=$('profile').value;const rows=entries.filter(x=>/\.mmr$/i.test(x.name)&&x.name.includes(key.split(' / ')[0])&&x.name.includes(key.split(' / ')[1])&&(key.endsWith('surface')?x.name.includes('/surface/'):true));
- $('regionList').innerHTML=rows.slice(0,80).map(x=>`<div class="row"><span class="fileline">${escapeHtml(x.name.split('/').pop())}</span><span class="tag">${(x.data.byteLength/1024).toFixed(1)} KB</span></div>`).join('')+(rows.length>80?`<div class="muted small">Showing 80 of ${rows.length} regions.</div>`:'');
+let files=[],worlds=[],selectedWorld=null,lastBlob=null,lastName='levimap.png',lastUrl=null;
+const dimNames={'0':'Overworld','-1':'Nether','1':'The End','2':'Custom dimension'};
+function status(id,msg,kind=''){const el=$(id);el.className='status '+kind;el.textContent=msg;}
+function rel(f){return f.webkitRelativePath||f.name;}
+async function readHandleTree(handle,prefix=''){
+ const out=[];
+ for await(const [name,h] of handle.entries()){
+  if(h.kind==='file'){const f=await h.getFile();Object.defineProperty(f,'webkitRelativePath',{value:prefix+name});out.push(f);}
+  else out.push(...await readHandleTree(h,prefix+name+'/'));
+ }
+ return out;
 }
-$('profile').addEventListener('change',renderRegions);
-$('saveImage').addEventListener('click',()=>{if(!currentImage)return;const a=document.createElement('a');a.href=URL.createObjectURL(currentImage.blob);a.download=currentImage.name.split('/').pop();a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000)});
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('nativeFolder').addEventListener('click',async()=>{
+ if(!window.showDirectoryPicker){$('folderInput').click();return;}
+ try{const h=await window.showDirectoryPicker({mode:'read'});files=await readHandleTree(h);scanFiles();}
+ catch(e){if(e.name!=='AbortError')status('scanStatus','Folder access failed: '+e.message,'warn');}
+});
+$('folderInput').addEventListener('change',e=>{files=Array.from(e.target.files||[]);scanFiles();});
+function scanFiles(){
+ worlds=[];
+ const roots=new Set();
+ for(const f of files){const p=rel(f).split('/');const mi=p.indexOf('maps');if(mi>0)roots.add(p.slice(0,mi).join('/'));}
+ for(const root of roots){
+  const worldFiles=files.filter(f=>rel(f).startsWith(root+'/'));
+  const dims=new Map();
+  for(const f of worldFiles){
+   const p=rel(f).split('/'),mi=p.indexOf('maps');if(mi<0||p[mi+1]===undefined)continue;
+   const dim=p[mi+1];if(!/^dim_-?\d+$/.test(dim))continue;
+   if(!p.includes('surface')||!f.name.toLowerCase().endsWith('.mmr'))continue;
+   const pi=p.findIndex(x=>x.startsWith('profile_'));if(pi<0)continue;
+   const prof=p[pi],key=dim+'|'+prof;
+   if(!dims.has(key))dims.set(key,[]);dims.get(key).push(f);
+  }
+  if(dims.size)worlds.push({root,name:root.split('/').pop(),files:worldFiles,dims});
+ }
+ worlds.sort((a,b)=>a.name.localeCompare(b.name));
+ if(!worlds.length){$('chooseCard').classList.add('hidden');status('scanStatus','No LeviMap surface .mmr regions were found. Select the data folder containing your world folders.','warn');return;}
+ const s=$('worldSelect');s.innerHTML='';worlds.forEach((w,i)=>{const o=document.createElement('option');o.value=i;o.textContent=w.name;s.append(o);});
+ $('chooseCard').classList.remove('hidden');populateWorld();
+ const total=worlds.reduce((n,w)=>n+w.dims.size,0);
+ status('scanStatus',`Found ${worlds.length} world(s), ${total} dimension/profile combinations and ${files.filter(f=>f.name.endsWith('.mmr')).length} MMR files.`,'good');
+}
+function populateWorld(){
+ selectedWorld=worlds[Number($('worldSelect').value)||0];const dims=[...new Set([...selectedWorld.dims.keys()].map(k=>k.split('|')[0]))].sort((a,b)=>Number(a.slice(4))-Number(b.slice(4)));
+ const ds=$('dimensionSelect');ds.innerHTML='';
+ dims.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=(dimNames[d.slice(4)]||'Dimension '+d.slice(4))+' ('+d+')';ds.append(o);});
+ populateProfiles();
+}
+function populateProfiles(){
+ const dim=$('dimensionSelect').value, groups=[...selectedWorld.dims.entries()].filter(([k])=>k.startsWith(dim+'|')).sort((a,b)=>b[1].length-a[1].length);
+ const ps=$('profileSelect');ps.innerHTML='';
+ groups.forEach(([k,arr])=>{const o=document.createElement('option');o.value=k.split('|')[1];o.textContent=k.split('|')[1]+' · '+arr.length+' regions';ps.append(o);});
+ const wp=selectedWorld.files.find(f=>rel(f).includes('/waypoints/'+dim+'/waypoints.json'));
+ $('includeWaypoints').disabled=!wp;$('includeWaypoints').checked=false;
+ $('worldSummary').textContent=`${selectedWorld.name} · ${groups[0]?.[1].length||0} surface regions in this dimension · ${wp?'waypoint data available':'no waypoint JSON found'}`;
+}
+$('worldSelect').addEventListener('change',populateWorld);
+$('dimensionSelect').addEventListener('change',populateProfiles);
+$('profileSelect').addEventListener('change',()=>{const k=$('dimensionSelect').value+'|'+$('profileSelect').value;const n=selectedWorld.dims.get(k)?.length||0;$('worldSummary').textContent=`${selectedWorld.name} · ${n} surface regions · selected profile ${$('profileSelect').value}`;});
+$('exportBtn').addEventListener('click',async()=>{
+ const dim=$('dimensionSelect').value,prof=$('profileSelect').value,arr=selectedWorld.dims.get(dim+'|'+prof)||[];
+ if(!arr.length){status('exportStatus','No surface regions found for this selection.','warn');$('exportStatus').classList.remove('hidden');return;}
+ $('exportBtn').disabled=true;$('progressWrap').classList.remove('hidden');$('exportStatus').classList.add('hidden');$('progressBar').style.width='0%';
+ try{
+  const result=await decodeAndStitch(arr,(pct,msg)=>{$('progressBar').style.width=pct+'%';$('progressText').textContent=msg;});
+  const png=await canvasToBlob(result.canvas);
+  const dimLabel=dimNames[dim.slice(4)]||dim;
+  const safe=(selectedWorld.name+'_'+dimLabel).replace(/[^a-z0-9_-]+/gi,'_');
+  lastName=safe+'.png';
+  if($('includeWaypoints').checked){
+   const wpFile=selectedWorld.files.find(f=>rel(f).includes('/waypoints/'+dim+'/waypoints.json'));
+   const txt=await waypointTxt(wpFile);
+   const zip=makeZip([{name:lastName,data:new Uint8Array(await png.arrayBuffer())},{name:safe+'_waypoints.txt',data:new TextEncoder().encode(txt)}]);
+   lastBlob=new Blob([zip],{type:'application/zip'});lastName=safe+'_map_and_waypoints.zip';
+  }else{lastBlob=png;}
+  if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(lastBlob);
+  $('preview').src=URL.createObjectURL(png);$('resultSize').textContent=result.width+' × '+result.height;
+  $('resultInfo').textContent=`${arr.length} regions stitched · ${result.tileCount.toLocaleString()} tiles decoded · ${dimLabel} · ${$('includeWaypoints').checked?'PNG + waypoint TXT in ZIP':'PNG only'}`;
+  $('resultCard').classList.remove('hidden');downloadResult();
+  status('exportStatus','Map export completed successfully.','good');$('exportStatus').classList.remove('hidden');
+  $('progressText').textContent='Completed.';
+ }catch(e){console.error(e);status('exportStatus','Conversion failed: '+e.message,'warn');$('exportStatus').classList.remove('hidden');}
+ finally{$('exportBtn').disabled=false;}
+});
+function downloadResult(){if(!lastBlob||!lastUrl)return;const a=document.createElement('a');a.href=lastUrl;a.download=lastName;document.body.append(a);a.click();a.remove();}
+$('downloadAgain').addEventListener('click',downloadResult);
+async function waypointTxt(file){
+ if(!file)return 'No waypoint file found for this dimension.\n';
+ let j;try{j=JSON.parse(await file.text());}catch(e){throw new Error('Waypoint JSON could not be read: '+e.message);}
+ const points=Array.isArray(j.waypoints)?j.waypoints:[];
+ const lines=['LeviMap waypoint coordinates','============================','',`Total waypoints: ${points.length}`,''];
+ for(const p of points)lines.push(`${p.name||'Unnamed waypoint'}`,`X: ${p.x}  Y: ${p.y}  Z: ${p.z}`,`Visible in world: ${p.show_in_world?'Yes':'No'}`,`Type: ${p.kind||'unknown'}`,'');
+ return lines.join('\n');
+}
+function canvasToBlob(canvas){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG encoding failed. The map may exceed this browser’s canvas/memory limit.')),'image/png'));}
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
 </body></html>
