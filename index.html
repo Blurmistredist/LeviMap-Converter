@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171522">
+<meta name="description" content="Offline-friendly LeviMap archive scanner and map image viewer.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>LeviMap Extractor</title>
+<style>
+:root{color-scheme:dark;--bg:#100e17;--panel:#1b1825;--panel2:#252132;--line:#393348;--text:#f5f1ff;--muted:#aaa2ba;--purple:#a88bff;--green:#8ce0b0;--amber:#f3c77a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#30264a 0%,transparent 55%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 16px 48px}.top{display:flex;align-items:center;gap:12px;margin:8px 0 24px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#9c7bff,#6044a4);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 30px #7956c455}.top h1{font-size:20px;line-height:1.15;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.pill{margin-left:auto;border:1px solid #4b4260;border-radius:999px;padding:4px 9px;color:#c7b9ed;font-size:11px;white-space:nowrap}
+.card{background:linear-gradient(160deg,#211d2d,#191622);border:1px solid var(--line);border-radius:20px;padding:17px;margin:14px 0;box-shadow:0 12px 35px #0002}.hero{padding:20px}.hero h2{font-size:19px;margin:0 0 5px}.muted{color:var(--muted)}.small{font-size:12px}.drop{border:1.5px dashed #655681;background:#211c30;border-radius:16px;padding:24px 14px;text-align:center;margin-top:16px}.drop strong{display:block;margin:7px 0 3px}.drop input{display:none}.btn{border:0;border-radius:13px;background:linear-gradient(135deg,#a78bfa,#7656c9);color:white;font-weight:700;padding:12px 16px;font-size:14px;cursor:pointer;min-height:46px}.btn.secondary{background:#302a3d;border:1px solid #4a415a;color:#eee8ff}.btn:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#211d2b;border:1px solid #383146;border-radius:13px;padding:11px}.stat b{font-size:20px;display:block}.stat span{font-size:11px;color:var(--muted)}h3{font-size:15px;margin:0 0 12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #332e40}.row:last-child{border:0}.tag{font-size:11px;border-radius:8px;padding:3px 7px;background:#30283e;color:#c9b9f7}.status{margin-top:12px;padding:11px 13px;border-radius:12px;background:#211e2a;color:#c9c0d8;font-size:13px}.status.good{border:1px solid #315e48;color:var(--green)}.status.warn{border:1px solid #705833;color:var(--amber)}.preview{width:100%;max-height:55vh;object-fit:contain;background:#0c0b10;border-radius:12px;border:1px solid var(--line)}select{background:#2a2535;color:white;border:1px solid #514762;border-radius:10px;padding:10px;width:100%;font:inherit}footer{color:#817991;text-align:center;font-size:11px;padding:18px 4px}.hidden{display:none!important}a{color:#c5b3ff}.notice{font-size:12px;color:#bfb6ce;line-height:1.55}.fileline{overflow-wrap:anywhere;font-size:12px;color:#c8c0d4}
+@media(min-width:600px){main{padding-top:30px}.hero{padding:25px}.drop{padding:32px}}
+</style>
+</head>
+<body>
+<main>
+ <header class="top">
+  <div class="logo">🗺️</div>
+  <div><h1>LeviMap Extractor</h1><div class="sub">Minecraft map archive companion</div></div>
+  <span class="pill">ANDROID FIRST</span>
+ </header>
+ <section class="card hero">
+  <h2>Bring your world map out of Minecraft.</h2>
+  <div class="muted small">Scan LeviMap archives, inspect profiles and regions, and view previously exported map images. Your files stay on this device.</div>
+  <label class="drop" for="archive">
+   <div style="font-size:30px">📦</div><strong>Choose a LeviMap archive</strong>
+   <div class="muted small">.zip or .levipack · processed locally</div>
+   <div class="actions" style="justify-content:center"><span class="btn">Browse files</span></div>
+   <input id="archive" type="file" accept=".zip,.levipack,application/zip">
+  </label>
+  <div id="status" class="status">Waiting for an archive.</div>
+ </section>
+ <section id="results" class="card hidden">
+  <h3>Archive overview</h3>
+  <div class="statgrid">
+   <div class="stat"><b id="regions">0</b><span>MMR regions</span></div>
+   <div class="stat"><b id="profiles">0</b><span>Profiles</span></div>
+   <div class="stat"><b id="images">0</b><span>PNG images</span></div>
+  </div>
+  <div style="margin-top:17px"><label class="small muted" for="profile">Map profile / dimension</label><select id="profile"></select></div>
+  <div id="regionList" style="margin-top:12px"></div>
+  <div class="notice" style="margin-top:13px">Waypoint files are detected but intentionally ignored for map-image viewing.</div>
+ </section>
+ <section id="imageCard" class="card hidden">
+  <h3>Image found in archive</h3>
+  <img id="mapImage" class="preview" alt="Map image preview">
+  <div id="imageInfo" class="muted small" style="margin-top:8px"></div>
+  <div class="actions"><button id="saveImage" class="btn">Save image</button></div>
+ </section>
+ <section class="card">
+  <h3>About conversion</h3>
+  <div class="status warn"><b>MMR image decoder is not yet built into this version.</b><br>It can identify LeviMap MMR1 archives and inspect their region layout, but it cannot yet reconstruct new PNG maps from raw .mmr files. I’m keeping this limitation visible rather than giving you a broken or misleading export button.</div>
+  <p class="notice">The next development step is porting LeviMap’s native MMR1 decoding and tile-rendering logic into a browser-compatible engine. The Android .so is an ARM64 native library tied to its game/mod environment, so a normal web page cannot simply load it.</p>
+ </section>
+ <footer>LeviMap Extractor · local file processing · no uploads</footer>
+</main>
+<script src="zip-reader.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+let entries=[],currentImage=null,archiveName='';
+function setStatus(msg,kind=''){ $('status').className='status '+kind; $('status').textContent=msg; }
+$('archive').addEventListener('change',async e=>{
+ const f=e.target.files[0]; if(!f)return;
+ archiveName=f.name; setStatus('Reading archive…');
+ try{
+  entries=await readZip(f);
+  const mmr=entries.filter(x=>/\.mmr$/i.test(x.name));
+  const png=entries.filter(x=>/\.png$/i.test(x.name));
+  const jsons=entries.filter(x=>/\.json$/i.test(x.name));
+  const groups=new Map();
+  for(const x of mmr){const p=x.name.split('/');const dim=p.find(v=>/^dim_/.test(v))||'unknown dimension';const prof=p.find(v=>/^profile_/.test(v))||'unknown profile';const surface=p.includes('surface')?'surface':(p.includes('cave')?'cave':'other');const key=[dim,prof,surface].join(' / ');groups.set(key,(groups.get(key)||0)+1);}
+  $('regions').textContent=mmr.length;$('profiles').textContent=new Set([...groups.keys()].map(k=>k.split(' / ').slice(0,2).join('/'))).size;$('images').textContent=png.length;
+  const sel=$('profile');sel.innerHTML='';
+  for(const [k,n] of groups){const o=document.createElement('option');o.value=k;o.textContent=`${k} · ${n} regions`;sel.append(o);}
+  renderRegions();
+  $('results').classList.remove('hidden');
+  if(png.length){const best=png.find(x=>/main_world.*\.png$/i.test(x.name))||png[0];const blob=new Blob([best.data],{type:'image/png'});currentImage={blob,name:best.name};$('mapImage').src=URL.createObjectURL(blob);$('imageInfo').textContent=best.name;$('imageCard').classList.remove('hidden');}
+  else $('imageCard').classList.add('hidden');
+  setStatus(`Scanned ${f.name}: found ${mmr.length} MMR regions, ${groups.size} region groups, ${png.length} PNG images and ${jsons.length} JSON files.`, 'good');
+ }catch(err){console.error(err);setStatus('Could not read this archive: '+err.message,'warn');}
+});
+function renderRegions(){
+ const key=$('profile').value;const rows=entries.filter(x=>/\.mmr$/i.test(x.name)&&x.name.includes(key.split(' / ')[0])&&x.name.includes(key.split(' / ')[1])&&(key.endsWith('surface')?x.name.includes('/surface/'):true));
+ $('regionList').innerHTML=rows.slice(0,80).map(x=>`<div class="row"><span class="fileline">${escapeHtml(x.name.split('/').pop())}</span><span class="tag">${(x.data.byteLength/1024).toFixed(1)} KB</span></div>`).join('')+(rows.length>80?`<div class="muted small">Showing 80 of ${rows.length} regions.</div>`:'');
+}
+$('profile').addEventListener('change',renderRegions);
+$('saveImage').addEventListener('click',()=>{if(!currentImage)return;const a=document.createElement('a');a.href=URL.createObjectURL(currentImage.blob);a.download=currentImage.name.split('/').pop();a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000)});
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>

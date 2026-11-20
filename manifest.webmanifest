@@ -1,0 +1,11 @@
+{
+  "name": "LeviMap Extractor",
+  "short_name": "LeviMap",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#100e17",
+  "theme_color": "#171522",
+  "description": "Offline-friendly LeviMap archive scanner and map image viewer.",
+  "icons": []
+}
